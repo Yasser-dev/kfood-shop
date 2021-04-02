@@ -12,5 +12,7 @@ export const registerUser = catchAsyncErrors(async (req, res, next) => {
     avatar: { public_id: " ", url: " " },
   });
 
-  res.status(201).json({ success: true, user });
+  const token = user.getJwtToken();
+
+  res.status(201).json({ success: true, token });
 });
