@@ -4,7 +4,7 @@ import catchAsyncErrors from "../middlewares/catchAsyncErrors";
 import ApiFeatures from "../utils/ApiFeatures";
 
 // Get all products => /api/v1/products?name=xxx
-export const getProducts = catchAsyncErrors(async (req, res, next) => {
+export const getProducts = catchAsyncErrors(async (req, res, _) => {
   const resultsPerPage = 4;
   const productCount = await Product.countDocuments();
   const apiFeatures = new ApiFeatures(Product.find(), req.query)
@@ -36,8 +36,9 @@ export const getProductById = catchAsyncErrors(async (req, res, next) => {
   });
 });
 
-// Create a new Product => /api/v1/admin/products/new
-export const newProduct = catchAsyncErrors(async (req, res, next) => {
+// Add a Product => /api/v1/admin/products/new
+export const addProduct = catchAsyncErrors(async (req, res, next) => {
+  req.body.createdBy = req.user.id;
   const product = await Product.create(req.body);
   if (!product) {
     return next(new ErrorHandler("Product not created", 404));

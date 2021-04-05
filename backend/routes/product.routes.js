@@ -3,7 +3,7 @@ import {
   deleteProduct,
   getProductById,
   getProducts,
-  newProduct,
+  addProduct,
   updateProduct,
 } from "../controllers/product.controller";
 
@@ -15,7 +15,7 @@ router.route("/products").get(isAuthenticated, getProducts);
 router.route("/products/:id").get(getProductById);
 router
   .route("/admin/products/new")
-  .post(isAuthenticated, authorizeRoles("admin"), newProduct);
+  .post(isAuthenticated, authorizeRoles("admin"), addProduct);
 router
   .route("/admin/products/:id")
   .put(isAuthenticated, authorizeRoles("admin"), updateProduct)
