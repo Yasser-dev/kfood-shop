@@ -1,7 +1,7 @@
 import { default as User } from "../models/user.model";
 import ErrorHandler from "../utils/errorHandler";
 import catchAsyncErrors from "../middlewares/catchAsyncErrors";
-
+import sendToken from "../utils/sendToken";
 export const registerUser = catchAsyncErrors(async (req, res, next) => {
   const { name, email, password } = req.body;
 
@@ -12,9 +12,7 @@ export const registerUser = catchAsyncErrors(async (req, res, next) => {
     avatar: { public_id: " ", url: " " },
   });
 
-  const token = user.getJwtToken();
-
-  res.status(201).json({ success: true, token });
+  sendToken(user, 200, res);
 });
 
 // Login user => /api/v1/login
@@ -40,6 +38,5 @@ export const loginUser = catchAsyncErrors(async (req, res, next) => {
     return next(new ErrorHandler("Invalid email or password", 401));
   }
 
-  const token = user.getJwtToken();
-  res.status(200).json({ success: true, token });
+  sendToken(user, 200, res);
 });
