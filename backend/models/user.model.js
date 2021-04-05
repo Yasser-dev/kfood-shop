@@ -56,11 +56,26 @@ userSchema.methods.checkPassword = async function (enteredPassword) {
   return bcrypt.compare(enteredPassword, this.password);
 };
 
-// return jsonwebtoken
+// return JWT
 userSchema.methods.getJwtToken = function () {
   return jwt.sign({ id: this._id }, process.env.JWT_SECRET, {
     expiresIn: process.env.JWT_EXPIRES_IN,
   });
+};
+
+// Generate password reset token
+userSchema.methods.getResetPasswordToken = function () {
+  // Generate token
+  const resetToken = crypto.randomBytes(20).toString("hex");
+  // Hash and set reset password token
+  this.resetPasswordToken = crypto
+    .createHash("sha256")
+    .update(resetToken)
+    .digest("hex");
+  // Set token expiry time to 10 mins
+  this.resetPasswordExpire = Date.now() + 10 * 60 * 1000;
+
+  return resetToken;
 };
 
 export default mongoose.model("User", userSchema);
