@@ -172,3 +172,41 @@ export const logoutUser = catchAsyncErrors(async (req, res, next) => {
     message: "User Logged Out successfully",
   });
 });
+
+// Admin Routes
+
+// Get all users => /api/v1/admin/users
+export const getAllUsers = catchAsyncErrors(async (req, res, next) => {
+  const users = await User.find();
+  res.status(200).json({ success: true, users });
+});
+
+// Get user by id => /api/v1/admin/users/:id
+export const getUserById = catchAsyncErrors(async (req, res, next) => {
+  const user = await User.findById(req.params.id);
+  if (!user) {
+    return next(
+      new ErrorHandler(`User with id: ${req.params.id} could not be found`, 404)
+    );
+  }
+  res.status(200).json({ success: true, user });
+});
+
+// Update user by id => /api/v1/admin/users/:id
+export const updateUser = catchAsyncErrors(async (req, res, next) => {
+  const newUserData = {
+    name: req.body.name,
+    email: req.body.email,
+    role: req.body.role,
+  };
+
+  const user = await User.findByIdAndUpdate(req.user.id, newUserData, {
+    new: true,
+    runValidators: true,
+    useFindAndModify: false,
+  });
+
+  res
+    .status(200)
+    .json({ success: true, message: "User updated successfully." });
+});
