@@ -4,6 +4,7 @@ import {
   getOrder,
   getCurrentUserOrders,
   getAllOrders,
+  updateOrder,
 } from "../controllers/order.controller";
 import { isAuthenticated, authorizeRoles } from "../middlewares/auth";
 
@@ -15,4 +16,8 @@ router.route("/orders/currentuser").get(isAuthenticated, getCurrentUserOrders);
 router
   .route("/admin/orders")
   .get(isAuthenticated, authorizeRoles("admin"), getAllOrders);
+router
+  .route("/admin/orders/:id")
+  .get(isAuthenticated, authorizeRoles("admin"), updateOrder);
+
 export default router;
