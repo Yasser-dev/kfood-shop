@@ -4,6 +4,7 @@ import ErrorHandler from "../utils/errorHandler";
 import catchAsyncErrors from "../middlewares/catchAsyncErrors";
 import { sendToken } from "../utils/jwtToken";
 import { sendEmail } from "../utils/sendEmail";
+
 //Register User => /api/v1/register
 export const registerUser = catchAsyncErrors(async (req, res, next) => {
   const { name, email, password } = req.body;
@@ -116,6 +117,27 @@ export const resetPassword = catchAsyncErrors(async (req, res, next) => {
   user.resetPasswordToken = undefined;
   user.resetPasswordExpire = undefined;
 
+  await user.save();
+  sendToken(user, 200, res);
+});
+
+// Get current logged in user => /api/v1/currentuser
+export const getCurrentUser = catchAsyncErrors(async (req, res, next) => {
+  const user = await User.findById(req.user.id);
+  res.status(200).json({ success: true, user });
+});
+
+// Update Password => /api/v1/password/update
+export const updatePassword = catchAsyncErrors(async (req, res, next) => {
+  const user = await User.findById(req.user.id).select("+password");
+
+  //  validate old password
+  const isValid = await user.checkPassword(req.body.currentPassword);
+
+  if (!isValid) {
+    return next(new ErrorHandler("Current Password is invalid", 404));
+  }
+  user.password = req.body.currentPassword;
   await user.save();
   sendToken(user, 200, res);
 });
