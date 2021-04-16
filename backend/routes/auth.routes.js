@@ -11,6 +11,7 @@ import {
   getAllUsers,
   getUserById,
   updateUser,
+  deleteUser,
 } from "../controllers/auth.controller";
 import { isAuthenticated, authorizeRoles } from "../middlewares/auth";
 const router = express.Router();
@@ -35,6 +36,7 @@ router
 router
   .route("/admin/users/:id")
   .get(isAuthenticated, authorizeRoles("admin"), getUserById)
-  .put(isAuthenticated, authorizeRoles("admin"), updateUser);
+  .put(isAuthenticated, authorizeRoles("admin"), updateUser)
+  .delete(isAuthenticated, authorizeRoles("admin"), deleteUser);
 
 export default router;
