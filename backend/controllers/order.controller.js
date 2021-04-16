@@ -49,3 +49,9 @@ export const getCurrentUserOrders = catchAsyncErrors(async (req, res, next) => {
 
   res.status(200).json({ success: true, orders });
 });
+
+// Get all orders => /api/v1/admin/orders
+export const getAllOrders = catchAsyncErrors(async (req, res, next) => {
+  const orders = await Order.find();
+  res.status(200).json({ success: true, ordersCount: orders.length, orders });
+});
