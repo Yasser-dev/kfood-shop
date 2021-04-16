@@ -6,6 +6,7 @@ import {
   resetPassword,
   getCurrentUser,
   updatePassword,
+  updateProfile,
   logoutUser,
 } from "../controllers/auth.controller";
 import { isAuthenticated } from "../middlewares/auth";
@@ -21,5 +22,6 @@ router.route("/logout").get(logoutUser);
 // User Routes
 router.route("/currentuser").get(isAuthenticated, getCurrentUser);
 router.route("/password/update").put(isAuthenticated, updatePassword);
+router.route("/currentuser/update").put(isAuthenticated, updateProfile);
 
 export default router;
