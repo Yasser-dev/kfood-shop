@@ -17,6 +17,7 @@ export const getProducts = catchAsyncErrors(async (req, res, _) => {
   res.status(200).json({
     success: true,
     productsCount,
+    resultsPerPage,
     products,
   });
 });
