@@ -6,7 +6,7 @@ import ApiFeatures from "../utils/ApiFeatures";
 // Get all products => /api/v1/products?name=xxx
 export const getProducts = catchAsyncErrors(async (req, res, _) => {
   const resultsPerPage = 4;
-  const productCount = await Product.countDocuments();
+  const productsCount = await Product.countDocuments();
   const apiFeatures = new ApiFeatures(Product.find(), req.query)
     .search()
     .filter()
@@ -16,8 +16,7 @@ export const getProducts = catchAsyncErrors(async (req, res, _) => {
 
   res.status(200).json({
     success: true,
-    count: products.length,
-    productCount,
+    productsCount,
     products,
   });
 });

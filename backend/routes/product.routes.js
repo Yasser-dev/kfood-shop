@@ -15,7 +15,7 @@ import { isAuthenticated, authorizeRoles } from "../middlewares/auth";
 
 const router = express.Router();
 
-router.route("/products").get(isAuthenticated, getProducts);
+router.route("/products").get(getProducts);
 router.route("/products/:id").get(getProductById);
 router
   .route("/admin/products/new")
