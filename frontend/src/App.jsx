@@ -8,7 +8,7 @@ function App() {
     <Router>
       <div className="App">
         <Header />
-        <div class="container container-fluid">
+        <div className="container container-fluid">
           <Route path="/" component={Home} exact />
         </div>
         <Footer />
