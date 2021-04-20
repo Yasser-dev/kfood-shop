@@ -5,7 +5,14 @@ import Footer from "./components/layouts/Footer";
 import Home from "./components/Home";
 import ProductDetails from "./components/product/ProductDetails";
 import Login from "./components/auth/login";
+import Register from "./components/auth/register";
+import { loadUser } from "./actions/userActions";
+import { useEffect } from "react";
+import store from "./store";
 function App() {
+  useEffect(() => {
+    store.dispatch(loadUser());
+  }, []);
   return (
     <Router>
       <div className="App">
@@ -13,6 +20,7 @@ function App() {
         <div className="container container-fluid">
           <Route path="/" component={Home} exact />
           <Route path="/login" component={Login} exact />
+          <Route path="/register" component={Register} exact />
           <Route path="/search/:keyword" component={Home} />
           <Route path="/products/:id" component={ProductDetails} exact />
         </div>

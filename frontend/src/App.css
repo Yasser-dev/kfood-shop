@@ -536,7 +536,6 @@ footer {
 #sidebar ul li.active > a,
 a[aria-expanded="true"] {
   color: #fff;
-  background: #232f3e;
 }
 a[data-toggle="collapse"] {
   position: relative;
@@ -544,8 +543,8 @@ a[data-toggle="collapse"] {
 .dropdown-toggle::after {
   display: block;
   position: absolute;
-  top: 50%;
-  right: 20px;
+  top: 60%;
+  right: 0px;
   transform: translateY(-50%);
 }
 

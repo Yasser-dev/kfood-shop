@@ -20,8 +20,9 @@ const Login = ({ history }) => {
       history.push("/");
     }
     if (error) {
-      alert(error);
-      //   dispatch(clearErrors());
+      console.log(error);
+      alert.error(error);
+      dispatch(clearErrors());
     }
   }, [dispatch, isAuthenticated, error, history, alert]);
 
@@ -44,6 +45,7 @@ const Login = ({ history }) => {
                 <div className="form-group">
                   <label htmlFor="email_field">Email</label>
                   <input
+                    autoComplete="none"
                     type="email"
                     id="email_field"
                     className="form-control"
@@ -77,7 +79,7 @@ const Login = ({ history }) => {
                   LOGIN
                 </button>
 
-                <Link to="/signup" className="float-right mt-3">
+                <Link to="/register" className="float-right mt-3">
                   New User?
                 </Link>
               </form>

@@ -1,4 +1,5 @@
 import crypto from "crypto";
+import cloudinary from "cloudinary";
 import { default as User } from "../models/user.model";
 import ErrorHandler from "../utils/errorHandler";
 import catchAsyncErrors from "../middlewares/catchAsyncErrors";
@@ -7,6 +8,12 @@ import { sendEmail } from "../utils/sendEmail";
 
 //Register User => /api/v1/register
 export const registerUser = catchAsyncErrors(async (req, res, next) => {
+  const result = await cloudinary.v2.uploader.upload(req.body.avatar, {
+    folder: "avatars",
+    width: 150,
+    crop: "scale",
+  });
+  console.log(`RESULT IS ${result}`);
   const { name, email, password } = req.body;
 
   const user = await User.create({
@@ -14,9 +21,8 @@ export const registerUser = catchAsyncErrors(async (req, res, next) => {
     email,
     password,
     avatar: {
-      public_id: Date.now().toString(),
-      url:
-        "https://cdn.business2community.com/wp-content/uploads/2017/08/blank-profile-picture-973460_640.png",
+      public_id: result.public_id,
+      url: result.secure_url,
     },
   });
 

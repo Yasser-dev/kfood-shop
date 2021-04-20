@@ -25,7 +25,7 @@ const Home = ({ match }) => {
 
   useEffect(() => {
     if (error) {
-      return alert(error);
+      return alert.error(error);
     }
     dispatch(getProducts(keyword, currentPage));
   }, [dispatch, alert, error, currentPage, keyword]);

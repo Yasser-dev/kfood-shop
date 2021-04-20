@@ -20,7 +20,8 @@ export const getProducts = (search = "", currentPage = 1) => async (
     );
     dispatch({ type: ALL_PRODUCTS_SUCCESS, payload: data });
   } catch (error) {
-    dispatch({ type: ALL_PRODUCTS_FAIL, payload: error.response.data.message });
+    console.log(`ERORR is ${error}`);
+    dispatch({ type: ALL_PRODUCTS_FAIL, payload: error });
   }
 };
 export const getProductDetails = (id) => async (dispatch) => {
