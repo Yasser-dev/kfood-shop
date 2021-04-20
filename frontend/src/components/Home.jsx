@@ -28,7 +28,7 @@ const Home = ({ match }) => {
       return alert(error);
     }
     dispatch(getProducts(keyword, currentPage));
-  }, [dispatch, alert, error, currentPage]);
+  }, [dispatch, alert, error, currentPage, keyword]);
 
   function setCurrentPageNo(pageNumber) {
     setCurrentPage(pageNumber);

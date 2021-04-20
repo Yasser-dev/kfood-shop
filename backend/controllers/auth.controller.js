@@ -13,7 +13,11 @@ export const registerUser = catchAsyncErrors(async (req, res, next) => {
     name,
     email,
     password,
-    avatar: { public_id: " ", url: " " },
+    avatar: {
+      public_id: Date.now().toString(),
+      url:
+        "https://cdn.business2community.com/wp-content/uploads/2017/08/blank-profile-picture-973460_640.png",
+    },
   });
 
   sendToken(user, 200, res);
