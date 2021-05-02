@@ -40,7 +40,6 @@ export const login = (email, password) => async (dispatch) => {
 export const register = (userData) => async (dispatch) => {
   try {
     dispatch({ type: SIGNUP_REQUEST });
-    console.log(`USERDATA: ${userData} `);
     const config = {
       headers: {
         "Content-Type": "multipart/form-data",

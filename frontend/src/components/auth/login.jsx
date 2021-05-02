@@ -20,7 +20,6 @@ const Login = ({ history }) => {
       history.push("/");
     }
     if (error) {
-      console.log(error);
       alert.error(error);
       dispatch(clearErrors());
     }
