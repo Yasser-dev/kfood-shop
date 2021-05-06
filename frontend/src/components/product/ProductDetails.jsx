@@ -10,6 +10,9 @@ import {
   getProductDetails,
   dismissProduct,
 } from "../../actions/productActions";
+
+import { addItemToCart } from "../../actions/cartActions";
+
 const ProductDetails = ({ match }) => {
   const [quantity, setQuantity] = useState(1);
   const dispatch = useDispatch();
@@ -29,6 +32,11 @@ const ProductDetails = ({ match }) => {
       dispatch(dismissProduct());
     };
   }, [dispatch, alert, error, match.params.id]);
+
+  const addToCart = () => {
+    dispatch(addItemToCart(match.params.id, quantity));
+    alert.success("Item Added to Cart");
+  };
 
   const increaseQty = () => {
     const count = document.querySelector(".count");
@@ -110,6 +118,7 @@ const ProductDetails = ({ match }) => {
                 id="cart_btn"
                 className="btn btn-primary d-inline ml-4"
                 disabled={product.stock === 0}
+                onClick={addToCart}
               >
                 Add to Cart
               </button>
