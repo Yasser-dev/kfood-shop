@@ -6,7 +6,6 @@ import { getProducts } from "../actions/productActions";
 import { useAlert } from "react-alert";
 import Product from "./product/product";
 import Loader from "./layouts/Loader";
-
 const Home = ({ match }) => {
   const [currentPage, setCurrentPage] = useState(1);
 
@@ -40,10 +39,11 @@ const Home = ({ match }) => {
       ) : (
         <Fragment>
           <MetaData title={"Authentic Korean Food"} />
+
           <h1 id="products_heading">Latest Products</h1>
 
-          <section id="products" className="container mt-5">
-            <div className="row">
+          <section id="products" className="flex mt-5">
+            <div className="flex w-full">
               {products &&
                 products.map((product) => (
                   <Product key={product._id} product={product} />
@@ -51,7 +51,7 @@ const Home = ({ match }) => {
             </div>
           </section>
           {resultsPerPage < productsCount && (
-            <div className="d-flex justify-content-center mt-5">
+            <div className="mt-5 d-flex justify-content-center">
               <Pagination
                 activePage={currentPage}
                 itemsCountPerPage={resultsPerPage}

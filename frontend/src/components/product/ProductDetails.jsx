@@ -1,6 +1,6 @@
 import React, { Fragment, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Carousel } from "react-bootstrap";
+
 import Loader from "../layouts/Loader";
 import MetaData from "../MetaData";
 
@@ -38,21 +38,19 @@ const ProductDetails = ({ match }) => {
           <MetaData title={product?.name} />
           <div className="row f-flex justify-content-around">
             <div className="col-12 col-lg-5 img-fluid" id="product_image">
-              <Carousel pause="hover">
-                {product.images &&
-                  product.images.map((image) => (
-                    <Carousel.Item key="image.public_id">
-                      <img
-                        className="d-block w-100"
-                        src={image.url}
-                        alt={product.title}
-                      />
-                    </Carousel.Item>
-                  ))}
-              </Carousel>
+              {product.images &&
+                product.images.map((image) => (
+                  <div key="image.public_id">
+                    <img
+                      className="d-block w-100"
+                      src={image.url}
+                      alt={product.title}
+                    />
+                  </div>
+                ))}
             </div>
 
-            <div className="col-12 col-lg-5 mt-5">
+            <div className="mt-5 col-12 col-lg-5">
               <h3>{product.name}</h3>
               <p id="product_id">Product #{product._id}</p>
 
@@ -84,7 +82,7 @@ const ProductDetails = ({ match }) => {
               <button
                 type="button"
                 id="cart_btn"
-                className="btn btn-primary d-inline ml-4"
+                className="ml-4 btn btn-primary d-inline"
               >
                 Add to Cart
               </button>
@@ -113,14 +111,14 @@ const ProductDetails = ({ match }) => {
               <button
                 id="review_btn"
                 type="button"
-                className="btn btn-primary mt-4"
+                className="mt-4 btn btn-primary"
                 data-toggle="modal"
                 data-target="#ratingModal"
               >
                 Submit Your Review
               </button>
 
-              <div className="row mt-2 mb-5">
+              <div className="mt-2 mb-5 row">
                 <div className="rating w-50">
                   <div
                     className="modal fade"
@@ -167,11 +165,11 @@ const ProductDetails = ({ match }) => {
                           <textarea
                             name="review"
                             id="review"
-                            className="form-control mt-3"
+                            className="mt-3 form-control"
                           ></textarea>
 
                           <button
-                            className="btn my-3 float-right review-btn px-4 text-white"
+                            className="float-right px-4 my-3 text-white btn review-btn"
                             data-dismiss="modal"
                             aria-label="Close"
                           >

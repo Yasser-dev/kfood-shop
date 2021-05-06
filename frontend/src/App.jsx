@@ -17,7 +17,7 @@ function App() {
     <Router>
       <div className="App">
         <Header />
-        <div className="container container-fluid">
+        <div className="px-10 py-2 flex-column">
           <Route path="/" component={Home} exact />
           <Route path="/login" component={Login} exact />
           <Route path="/register" component={Register} exact />
