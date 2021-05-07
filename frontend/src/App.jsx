@@ -15,6 +15,7 @@ import UpdateProfile from "./components/auth/UpdateProfile";
 import UpdatePassword from "./components/auth/UpdatePassword";
 import ForgotPassword from "./components/auth/ForgotPassword";
 import NewPassword from "./components/auth/NewPassword";
+import Cart from "./components/cart/Cart";
 function App() {
   useEffect(() => {
     store.dispatch(loadUser());
@@ -25,6 +26,8 @@ function App() {
         <Header />
         <div className="container container-fluid">
           <Route path="/" component={Home} exact />
+          <Route path="/cart" component={Cart} exact />
+
           <Route path="/login" component={Login} exact />
           <Route path="/register" component={Register} exact />
           <Route path="/password/forgot" component={ForgotPassword} exact />

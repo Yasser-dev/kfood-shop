@@ -11,7 +11,7 @@ const Header = () => {
   const dispatch = useDispatch();
 
   const { user, loading } = useSelector((state) => state.auth);
-
+  const { cartItems } = useSelector((state) => state.cart);
   const logoutHandler = () => {
     dispatch(logout());
     alert.success("Successfully Logged Out");
@@ -36,7 +36,7 @@ const Header = () => {
               <i className="fa fa-shopping-cart"></i>
             </span>
             <span className="ml-1 mr-4" id="cart_count">
-              2
+              {cartItems.length}
             </span>
           </Link>
 
