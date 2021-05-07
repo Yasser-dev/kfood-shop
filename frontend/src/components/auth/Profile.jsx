@@ -26,7 +26,7 @@ const Profile = () => {
                 />
               </figure>
               <Link
-                to="/me/update"
+                to="/profile/update"
                 id="edit_profile"
                 className="my-5 btn btn-primary btn-block"
               >

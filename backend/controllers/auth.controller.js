@@ -66,9 +66,7 @@ export const forgotPassword = catchAsyncErrors(async (req, res, next) => {
   await user.save({ validateBeforeSave: false });
 
   // Create Password reset Url
-  const resetUrl = `${req.protocol}://${req.get(
-    "host"
-  )}/api/v1/password/reset/${resetToken}`;
+  const resetUrl = `${process.env.FRONT_END_URL}/password/reset/${resetToken}`;
 
   const message = `Your password reset link is:\n\n
   ${resetUrl}\n\n
@@ -94,7 +92,7 @@ export const forgotPassword = catchAsyncErrors(async (req, res, next) => {
 
 //  Forgot Password => /api/v1/password/reset/:token
 export const resetPassword = catchAsyncErrors(async (req, res, next) => {
-  //  Hash url token
+  // Hash URL token
   const resetPasswordToken = crypto
     .createHash("sha256")
     .update(req.params.token)
@@ -102,9 +100,7 @@ export const resetPassword = catchAsyncErrors(async (req, res, next) => {
 
   const user = await User.findOne({
     resetPasswordToken,
-    resetPasswordExpire: {
-      $gt: Date.now(),
-    },
+    resetPasswordExpire: { $gt: Date.now() },
   });
 
   if (!user) {
@@ -117,16 +113,17 @@ export const resetPassword = catchAsyncErrors(async (req, res, next) => {
   }
 
   if (req.body.password !== req.body.confirmPassword) {
-    return next(new ErrorHandler("Passwords don't match", 400));
+    return next(new ErrorHandler("Password does not match", 400));
   }
 
-  //  Setup new Password
+  // Setup new password
   user.password = req.body.password;
 
   user.resetPasswordToken = undefined;
   user.resetPasswordExpire = undefined;
 
   await user.save();
+
   sendToken(user, 200, res);
 });
 
@@ -141,12 +138,12 @@ export const updatePassword = catchAsyncErrors(async (req, res, next) => {
   const user = await User.findById(req.user.id).select("+password");
 
   //  validate old password
-  const isValid = await user.checkPassword(req.body.currentPassword);
+  const isValid = await user.checkPassword(req.body.oldPassword);
 
   if (!isValid) {
-    return next(new ErrorHandler("Current Password is invalid", 404));
+    return next(new ErrorHandler("This is not your current password", 404));
   }
-  user.password = req.body.currentPassword;
+  user.password = req.body.password;
   await user.save();
   sendToken(user, 200, res);
 });
@@ -157,8 +154,22 @@ export const updateProfile = catchAsyncErrors(async (req, res, next) => {
     name: req.body.name,
     email: req.body.email,
   };
-  // TODO:Update avatar
+  // Update avatar
+  if (req.body.avatar !== "") {
+    const user = await User.findById(req.user.id);
+    const image_id = user.avatar.public_id;
+    const res = await cloudinary.v2.uploader.destroy(image_id);
+    const result = await cloudinary.v2.uploader.upload(req.body.avatar, {
+      folder: "avatars",
+      width: 150,
+      crop: "scale",
+    });
 
+    newUserData.avatar = {
+      public_id: result.public_id,
+      url: result.secure_url,
+    };
+  }
   const user = await User.findByIdAndUpdate(req.user.id, newUserData, {
     new: true,
     runValidators: true,
