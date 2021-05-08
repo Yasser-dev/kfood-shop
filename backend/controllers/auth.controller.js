@@ -1,6 +1,6 @@
 import crypto from "crypto";
 import cloudinary from "cloudinary";
-import { default as User } from "../models/user.model";
+import User from "../models/user.model";
 import ErrorHandler from "../utils/errorHandler";
 import catchAsyncErrors from "../middlewares/catchAsyncErrors";
 import { sendToken } from "../utils/jwtToken";

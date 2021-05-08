@@ -1,5 +1,5 @@
-import { default as Order } from "../models/order.model";
-import { default as Product } from "../models/product.model";
+import Order from "../models/order.model";
+import Product from "../models/product.model";
 import ErrorHandler from "../utils/errorHandler";
 import catchAsyncErrors from "../middlewares/catchAsyncErrors";
 

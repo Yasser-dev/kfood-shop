@@ -1,4 +1,4 @@
-import { default as Product } from "../models/product.model";
+import Product from "../models/product.model";
 import ErrorHandler from "../utils/errorHandler";
 import catchAsyncErrors from "../middlewares/catchAsyncErrors";
 import ApiFeatures from "../utils/ApiFeatures";
