@@ -16,6 +16,8 @@ import UpdatePassword from "./components/auth/UpdatePassword";
 import ForgotPassword from "./components/auth/ForgotPassword";
 import NewPassword from "./components/auth/NewPassword";
 import Cart from "./components/cart/Cart";
+import Shipping from "./components/cart/Shipping";
+import ConfirmOrder from "./components/cart/ConfirmOrder";
 function App() {
   useEffect(() => {
     store.dispatch(loadUser());
@@ -27,6 +29,8 @@ function App() {
         <div className="container container-fluid">
           <Route path="/" component={Home} exact />
           <Route path="/cart" component={Cart} exact />
+          <ProtectedRoute path="/shipping" component={Shipping} exact />
+          <ProtectedRoute path="/confirm" component={ConfirmOrder} exact />
 
           <Route path="/login" component={Login} exact />
           <Route path="/register" component={Register} exact />

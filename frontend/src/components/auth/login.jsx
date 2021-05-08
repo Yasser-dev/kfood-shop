@@ -14,10 +14,12 @@ const Login = ({ history }) => {
   const { isAuthenticated, loading, error } = useSelector(
     (state) => state.auth
   );
-
+  const redirect = window.location.search
+    ? window.location.search.split("=")[1]
+    : "/";
   useEffect(() => {
     if (isAuthenticated) {
-      history.push("/");
+      history.push(redirect);
     }
     if (error) {
       alert.error(error);
@@ -73,7 +75,7 @@ const Login = ({ history }) => {
                 <button
                   id="login_button"
                   type="submit"
-                  className="btn btn-block py-3"
+                  className="py-3 btn btn-block"
                 >
                   LOGIN
                 </button>
