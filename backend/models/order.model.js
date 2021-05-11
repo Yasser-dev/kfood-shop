@@ -18,6 +18,10 @@ const orderSchema = mongoose.Schema({
       type: String,
       required: true,
     },
+    governate: {
+      type: String,
+      required: true,
+    },
   },
   user: {
     type: mongoose.Schema.Types.ObjectId,

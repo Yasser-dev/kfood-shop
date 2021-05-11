@@ -37,7 +37,7 @@ const OrderDetails = ({ match }) => {
 
   const shippingDetails =
     shippingInfo &&
-    `${shippingInfo.address}, ${shippingInfo.city}, ${shippingInfo.postalCode}, ${shippingInfo.country}`;
+    `${shippingInfo.address}, ${shippingInfo.city}, ${shippingInfo.postalCode}, ${shippingInfo.governate}`;
 
   const isPaid =
     paymentInfo && paymentInfo.status === "succeeded" ? true : false;
