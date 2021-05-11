@@ -7,8 +7,7 @@ import {
   updateProduct,
   getProductReviews,
   createProductReview,
-  deleteProductReviews,
-  deleteProductReviewById,
+  deleteProductReview,
 } from "../controllers/product.controller";
 
 import { isAuthenticated, authorizeRoles } from "../middlewares/auth";
@@ -20,19 +19,13 @@ router.route("/products/:id").get(getProductById);
 router
   .route("/admin/products/new")
   .post(isAuthenticated, authorizeRoles("admin"), addProduct);
+
 router
   .route("/admin/products/:id")
   .put(isAuthenticated, authorizeRoles("admin"), updateProduct)
   .delete(isAuthenticated, authorizeRoles("admin"), deleteProduct);
 
-router
-  .route("/products/:id/reviews")
-  .get(isAuthenticated, getProductReviews)
-  .put(isAuthenticated, createProductReview)
-  .delete(isAuthenticated, authorizeRoles("admin"), deleteProductReviews);
-
-router
-  .route("/products/:id/reviews/:rid")
-  .delete(isAuthenticated, deleteProductReviewById);
-
+router.route("/review").put(isAuthenticated, createProductReview);
+router.route("/reviews").get(isAuthenticated, getProductReviews);
+router.route("/reviews").delete(isAuthenticated, deleteProductReview);
 export default router;

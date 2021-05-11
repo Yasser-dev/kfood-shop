@@ -80,7 +80,6 @@ export const deleteProduct = catchAsyncErrors(async (req, res, next) => {
   });
 });
 
-// Get product reviews => /api/v1/products/:id/reviews
 export const getProductReviews = catchAsyncErrors(async (req, res, next) => {
   const product = await Product.findById(req.params.id);
   if (!product) {
@@ -90,23 +89,22 @@ export const getProductReviews = catchAsyncErrors(async (req, res, next) => {
   res.status(200).json({ success: true, reviews: product.reviews });
 });
 
-// Create a new review => /api/v1/products/:id/reviews
 export const createProductReview = catchAsyncErrors(async (req, res, next) => {
-  const productId = req.params.id;
-  const { rating, comment } = req.body;
+  const { rating, comment, productId } = req.body;
+
   const review = {
     user: req.user._id,
     name: req.user.name,
     rating: Number(rating),
     comment,
   };
+
   const product = await Product.findById(productId);
-  if (!product) {
-    return next(new ErrorHandler("Product not found", 404));
-  }
+
   const isReviewed = product.reviews.find(
-    (review) => review.user.toString() === req.user._id.toString()
+    (r) => r.user.toString() === req.user._id.toString()
   );
+
   if (isReviewed) {
     product.reviews.forEach((review) => {
       if (review.user.toString() === req.user._id.toString()) {
@@ -119,74 +117,47 @@ export const createProductReview = catchAsyncErrors(async (req, res, next) => {
     product.numOfReviews = product.reviews.length;
   }
 
-  // total rating of the product
   product.ratings =
-    product.reviews.reduce((acc, review) => review.rating + acc, 0) /
+    product.reviews.reduce((acc, item) => item.rating + acc, 0) /
     product.reviews.length;
 
   await product.save({ validateBeforeSave: false });
-  res.status(200).json({ success: true });
-});
 
-// Delete all product reviews => /api/v1/products/:id/reviews
-export const deleteProductReviews = catchAsyncErrors(async (req, res, next) => {
-  const product = await Product.findById(req.params.id);
-  if (!product) {
-    return next(new ErrorHandler("Product not found", 404));
-  }
-
-  await Product.findByIdAndUpdate(req.params.id, {
-    reviews: [],
-    numOfReviews: 0,
-    ratings: 0,
-  });
   res.status(200).json({
     success: true,
-    message: `Product with id: ${req.params.id} has all its reviews deleted`,
   });
 });
 
-// Delete product review by id => /api/v1/products/:id/reviews/:rid
-export const deleteProductReviewById = catchAsyncErrors(
-  async (req, res, next) => {
-    const product = await Product.findById(req.params.id);
-    if (!product) {
-      return next(new ErrorHandler("Product not found", 404));
+export const deleteProductReview = catchAsyncErrors(async (req, res, next) => {
+  const product = await Product.findById(req.query.productId);
+
+  console.log(product);
+
+  const reviews = product.reviews.filter(
+    (review) => review._id.toString() !== req.query.id.toString()
+  );
+
+  const numOfReviews = reviews.length;
+
+  const ratings =
+    product.reviews.reduce((acc, item) => item.rating + acc, 0) /
+    reviews.length;
+
+  await Product.findByIdAndUpdate(
+    req.query.productId,
+    {
+      reviews,
+      ratings,
+      numOfReviews,
+    },
+    {
+      new: true,
+      runValidators: true,
+      useFindAndModify: false,
     }
+  );
 
-    const requestedReview = product.reviews.find(
-      (review) => review._id.toString() === req.params.rid.toString()
-    );
-
-    if (!requestedReview) {
-      return next(new ErrorHandler("Review is not found", 404));
-    }
-
-    const reviews = product.reviews.filter(
-      (review) => review._id.toString() !== req.params.rid.toString()
-    );
-    const numOfReviews = reviews.length;
-    const ratings =
-      product.reviews.reduce((acc, r) => r.rating + acc, 0) / reviews.length;
-
-    if (
-      req.user.role === "admin" ||
-      req.user._id.toString() === requestedReview.user.toString()
-    ) {
-      await Product.findByIdAndUpdate(req.params.id, {
-        reviews,
-        numOfReviews,
-        ratings,
-      });
-      res.status(200).json({
-        success: true,
-        message: `Product with id: ${req.params.id} has all its review with id: ${req.params.rid} deleted`,
-      });
-    } else {
-      res.status(403).json({
-        success: false,
-        message: `Review with id: ${req.params.rid} does not belong to you!`,
-      });
-    }
-  }
-);
+  res.status(200).json({
+    success: true,
+  });
+});
