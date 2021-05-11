@@ -1,4 +1,5 @@
 import "./App.css";
+import { useEffect, useState } from "react";
 import { BrowserRouter as Router, Route } from "react-router-dom";
 import Header from "./components/layouts/Header";
 import Footer from "./components/layouts/Footer";
@@ -8,7 +9,6 @@ import Login from "./components/auth/Login";
 import Register from "./components/auth/Register";
 import Profile from "./components/auth/Profile";
 import { loadUser } from "./actions/userActions";
-import { useEffect } from "react";
 import store from "./store";
 import ProtectedRoute from "./components/route/ProtectedRoute";
 import UpdateProfile from "./components/auth/UpdateProfile";
@@ -18,9 +18,22 @@ import NewPassword from "./components/auth/NewPassword";
 import Cart from "./components/cart/Cart";
 import Shipping from "./components/cart/Shipping";
 import ConfirmOrder from "./components/cart/ConfirmOrder";
+import axios from "axios";
+import { Elements } from "@stripe/react-stripe-js";
+import { loadStripe } from "@stripe/stripe-js";
+import Payment from "./components/cart/Payment";
+import OrderSuccess from "./components/cart/OrderSuccess";
 function App() {
+  const [stripeApiKey, setStripeApiKey] = useState("");
+
   useEffect(() => {
     store.dispatch(loadUser());
+    async function getStripApiKey() {
+      const { data } = await axios.get("/api/v1/stripeapi");
+      setStripeApiKey(data.stripeApiKey);
+    }
+
+    getStripApiKey();
   }, []);
   return (
     <Router>
@@ -31,6 +44,12 @@ function App() {
           <Route path="/cart" component={Cart} exact />
           <ProtectedRoute path="/shipping" component={Shipping} exact />
           <ProtectedRoute path="/confirm" component={ConfirmOrder} exact />
+          <ProtectedRoute path="/success" component={OrderSuccess} />
+          {stripeApiKey && (
+            <Elements stripe={loadStripe(stripeApiKey)}>
+              <ProtectedRoute path="/payment" component={Payment} />
+            </Elements>
+          )}
 
           <Route path="/login" component={Login} exact />
           <Route path="/register" component={Register} exact />

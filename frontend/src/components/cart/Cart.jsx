@@ -49,7 +49,7 @@ const Cart = ({ history }) => {
           <div className="row d-flex justify-content-between">
             <div className="col-12 col-lg-8">
               {cartItems.map((item) => (
-                <Fragment>
+                <Fragment key={item}>
                   <hr />
 
                   <div className="cart-item" key={item.product}>
@@ -69,11 +69,11 @@ const Cart = ({ history }) => {
                         </Link>
                       </div>
 
-                      <div className="col-4 col-lg-2 mt-4 mt-lg-0">
+                      <div className="mt-4 col-4 col-lg-2 mt-lg-0">
                         <p id="card_item_price">EGP {item.price}</p>
                       </div>
 
-                      <div className="col-4 col-lg-3 mt-4 mt-lg-0">
+                      <div className="mt-4 col-4 col-lg-3 mt-lg-0">
                         <div className="stockCounter d-inline">
                           <span
                             className="btn btn-danger minus"
@@ -106,7 +106,7 @@ const Cart = ({ history }) => {
                         </div>
                       </div>
 
-                      <div className="col-4 col-lg-1 mt-4 mt-lg-0">
+                      <div className="mt-4 col-4 col-lg-1 mt-lg-0">
                         <i
                           id="delete_cart_item"
                           className="fa fa-trash btn btn-danger"
@@ -120,7 +120,7 @@ const Cart = ({ history }) => {
               ))}
             </div>
 
-            <div className="col-12 col-lg-3 my-4">
+            <div className="my-4 col-12 col-lg-3">
               <div id="order_summary">
                 <h4>Order Summary</h4>
                 <hr />
@@ -130,8 +130,8 @@ const Cart = ({ history }) => {
                     {cartItems.reduce(
                       (acc, item) => acc + Number(item.quantity),
                       0
-                    )}{" "}
-                    (Units)
+                    )}
+                    (Items)
                   </span>
                 </p>
                 <p>

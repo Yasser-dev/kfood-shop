@@ -1,10 +1,11 @@
 import catchAsyncErrors from "../middlewares/catchAsyncErrors";
 import Stripe from "stripe";
 
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
-
 // Process stripe payments   =>   /api/v1/payment/process
 export const processPayment = catchAsyncErrors(async (req, res, next) => {
+  const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {
+    apiVersion: "2020-08-27",
+  });
   const paymentIntent = await stripe.paymentIntents.create({
     amount: req.body.amount,
     currency: "egp",

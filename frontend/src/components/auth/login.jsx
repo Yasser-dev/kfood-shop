@@ -14,9 +14,11 @@ const Login = ({ history }) => {
   const { isAuthenticated, loading, error } = useSelector(
     (state) => state.auth
   );
+
   const redirect = window.location.search
     ? window.location.search.split("=")[1]
     : "/";
+
   useEffect(() => {
     if (isAuthenticated) {
       history.push(redirect);
@@ -25,7 +27,7 @@ const Login = ({ history }) => {
       alert.error(error);
       dispatch(clearErrors());
     }
-  }, [dispatch, isAuthenticated, error, history, alert]);
+  }, [dispatch, isAuthenticated, error, history, redirect, alert]);
 
   const submitHandler = (e) => {
     e.preventDefault();
