@@ -1,5 +1,6 @@
 import Order from "../models/order.model";
 import Product from "../models/product.model";
+
 import ErrorHandler from "../utils/errorHandler";
 import catchAsyncErrors from "../middlewares/catchAsyncErrors";
 
@@ -32,7 +33,7 @@ export const createOrder = catchAsyncErrors(async (req, res, next) => {
 
 // Get order by id => /api/v1/orders/:id
 export const getOrder = catchAsyncErrors(async (req, res, next) => {
-  const order = await Order.findById(req.params.id).populated(
+  const order = await Order.findById(req.params.id).populate(
     "user",
     "name email"
   );
@@ -46,8 +47,10 @@ export const getOrder = catchAsyncErrors(async (req, res, next) => {
 // Get logged in user Orders => /api/v1/orders/currentuser
 export const getCurrentUserOrders = catchAsyncErrors(async (req, res, next) => {
   const orders = await Order.find({ user: req.user.id });
-
-  res.status(200).json({ success: true, orders });
+  res.status(200).json({
+    success: true,
+    orders,
+  });
 });
 
 // Admin Order Routes

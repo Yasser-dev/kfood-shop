@@ -1,4 +1,5 @@
 import axios from "axios";
+import { CLEAR_CART } from "../constants/cartConstants";
 
 import {
   CREATE_ORDER_REQUEST,
@@ -57,6 +58,8 @@ export const myOrders = () => async (dispatch) => {
       type: MY_ORDERS_SUCCESS,
       payload: data.orders,
     });
+    dispatch({ type: CLEAR_CART });
+    localStorage.removeItem("cartItems");
   } catch (error) {
     dispatch({
       type: MY_ORDERS_FAIL,

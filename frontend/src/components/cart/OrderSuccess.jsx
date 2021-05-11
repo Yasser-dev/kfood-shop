@@ -19,7 +19,7 @@ const OrderSuccess = () => {
           <h2>Your Order has been placed successfully.</h2>
 
           <Link
-            to="/orders/me"
+            to="/orders"
             className="btn btn-primary"
             style={{ background: "#8860D0" }}
           >

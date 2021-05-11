@@ -228,7 +228,7 @@ export const updateUser = catchAsyncErrors(async (req, res, next) => {
 
   res
     .status(200)
-    .json({ success: true, message: "User updated successfully." });
+    .json({ success: true, message: "User updated successfully.", user });
 });
 
 // Delete user => /api/v1/admin/users/:id
