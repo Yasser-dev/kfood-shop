@@ -9,11 +9,11 @@ import { saveShippingInfo } from "../../actions/cartActions";
 const Shipping = ({ history }) => {
   const { shippingInfo } = useSelector((state) => state.cart);
   const governates = Object.keys(governatesList);
-  const [address, setAddress] = useState(shippingInfo.address);
-  const [city, setCity] = useState(shippingInfo.city);
-  const [postalCode, setPostalCode] = useState(shippingInfo.postalCode);
-  const [phoneNo, setPhoneNo] = useState(shippingInfo.phoneNo);
-  const [governate, setGovernate] = useState(shippingInfo.governate);
+  const [address, setAddress] = useState(shippingInfo.address ?? "");
+  const [city, setCity] = useState(shippingInfo.city ?? "");
+  const [postalCode, setPostalCode] = useState(shippingInfo.postalCode ?? "");
+  const [phoneNo, setPhoneNo] = useState(shippingInfo.phoneNo ?? "");
+  const [governate, setGovernate] = useState(shippingInfo.governate ?? "");
 
   const dispatch = useDispatch();
 

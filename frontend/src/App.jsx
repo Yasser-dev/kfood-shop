@@ -59,8 +59,14 @@ function App() {
           <AdminHeader />
         )}
 
+        {isAuthenticated && user.role === "admin" ? (
+          <Route path="/" component={Dashboard} exact />
+        ) : (
+          <div className="container container-fluid">
+            <Route path="/" component={Home} exact />
+          </div>
+        )}
         <div className="container container-fluid">
-          <Route path="/" component={Home} exact />
           <Route path="/cart" component={Cart} exact />
           <ProtectedRoute path="/shipping" component={Shipping} exact />
           <ProtectedRoute path="/confirm" component={ConfirmOrder} exact />
