@@ -21,7 +21,7 @@ const OrderSuccess = () => {
           <Link
             to="/orders"
             className="btn btn-primary"
-            style={{ background: "#8860D0" }}
+            style={{ background: "#093A7C" }}
           >
             Go to Orders
           </Link>

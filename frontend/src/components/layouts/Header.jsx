@@ -2,7 +2,7 @@ import React, { Fragment } from "react";
 import { Link, Route } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { useAlert } from "react-alert";
-import HeaderLogo from "../../assets/logo-header.png";
+import HeaderLogo from "../../assets/logo-header1.png";
 import Search from "./Search";
 import { logout } from "../../actions/userActions";
 
@@ -26,11 +26,11 @@ const Header = () => {
           </Link>
         </div>
 
-        <div className="col-12 col-md-6 mt-2 mt-md-0">
+        <div className="mt-2 col-12 col-md-6 mt-md-0">
           <Route render={({ history }) => <Search history={history} />} />
         </div>
 
-        <div className="col-12 col-md-3 mt-4 mt-md-0 text-center">
+        <div className="mt-4 text-center col-12 col-md-3 mt-md-0">
           <Link to="/cart" style={{ textDecoration: "none" }}>
             <span id="cart" className="ml-3">
               <i className="fa fa-shopping-cart"></i>
@@ -44,7 +44,7 @@ const Header = () => {
             <div className="ml-4 dropdown d-inline">
               <Link
                 to="#!"
-                className="btn dropdown-toggle text-white mr-1"
+                className="mr-1 text-white btn dropdown-toggle"
                 type="button"
                 id="dropDownMenuButton"
                 data-toggle="dropdown"

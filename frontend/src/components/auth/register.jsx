@@ -122,7 +122,7 @@ const Register = ({ history }) => {
                   <label htmlFor="avatar_upload">Avatar</label>
                   <div className="d-flex align-items-center">
                     <div>
-                      <figure className="avatar mr-3 item-rtl">
+                      <figure className="mr-3 avatar item-rtl">
                         <img
                           src={avatarPreview}
                           className="rounded-circle"
@@ -149,7 +149,7 @@ const Register = ({ history }) => {
                 <button
                   id="register_button"
                   type="submit"
-                  className="btn btn-block py-3"
+                  className="py-3 btn btn-block"
                   disabled={loading ? true : false}
                 >
                   REGISTER

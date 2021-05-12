@@ -2,7 +2,7 @@ import React, { Fragment } from "react";
 import { Link, Route } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { useAlert } from "react-alert";
-import HeaderLogo from "../../assets/adminlogo.png";
+import HeaderLogo from "../../assets/adminheaderlogo.png";
 import { logout } from "../../actions/userActions";
 
 const AdminHeader = () => {
