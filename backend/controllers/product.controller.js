@@ -2,6 +2,7 @@ import Product from "../models/product.model";
 import ErrorHandler from "../utils/errorHandler";
 import catchAsyncErrors from "../middlewares/catchAsyncErrors";
 import ApiFeatures from "../utils/ApiFeatures";
+import cloudinary from "cloudinary";
 
 // Get all products => /api/v1/products?name=xxx
 export const getProducts = catchAsyncErrors(async (req, res, _) => {
@@ -38,12 +39,35 @@ export const getProductById = catchAsyncErrors(async (req, res, next) => {
 
 // Add a Product => /api/v1/admin/products/new
 export const addProduct = catchAsyncErrors(async (req, res, next) => {
-  req.body.createdBy = req.user.id;
-  const product = await Product.create(req.body);
-  if (!product) {
-    return next(new ErrorHandler("Product not created", 404));
+  let images = [];
+  if (typeof req.body.images === "string") {
+    images.push(req.body.images);
+  } else {
+    images = req.body.images;
   }
-  res.status(200).json({ success: true, product });
+
+  let imagesLinks = [];
+
+  for (let i = 0; i < images.length; i++) {
+    const result = await cloudinary.v2.uploader.upload(images[i], {
+      folder: "products",
+    });
+
+    imagesLinks.push({
+      public_id: result.public_id,
+      url: result.secure_url,
+    });
+  }
+
+  req.body.images = imagesLinks;
+  req.body.createdBy = req.user.id;
+
+  const product = await Product.create(req.body);
+
+  res.status(201).json({
+    success: true,
+    product,
+  });
 });
 
 // Update product => /api/v1/admin/products/:id
@@ -54,6 +78,38 @@ export const updateProduct = catchAsyncErrors(async (req, res, next) => {
   if (!product) {
     return next(new ErrorHandler("Product not found", 404));
   }
+
+  let images = [];
+  if (typeof req.body.images === "string") {
+    images.push(req.body.images);
+  } else {
+    images = req.body.images;
+  }
+
+  if (images !== undefined) {
+    // Deleting images associated with the product
+    for (let i = 0; i < product.images.length; i++) {
+      const result = await cloudinary.v2.uploader.destroy(
+        product.images[i].public_id
+      );
+    }
+
+    let imagesLinks = [];
+
+    for (let i = 0; i < images.length; i++) {
+      const result = await cloudinary.v2.uploader.upload(images[i], {
+        folder: "products",
+      });
+
+      imagesLinks.push({
+        public_id: result.public_id,
+        url: result.secure_url,
+      });
+    }
+
+    req.body.images = imagesLinks;
+  }
+
   product = await Product.findByIdAndUpdate(req.params.id, req.body, {
     new: true,
     runValidators: true,
@@ -69,24 +125,43 @@ export const updateProduct = catchAsyncErrors(async (req, res, next) => {
 // Delete a product => /api/v1/admin/products/:id
 export const deleteProduct = catchAsyncErrors(async (req, res, next) => {
   const product = await Product.findById(req.params.id);
+
   if (!product) {
     return next(new ErrorHandler("Product not found", 404));
+  }
+
+  // Deleting images associated with the product
+  for (let i = 0; i < product.images.length; i++) {
+    const result = await cloudinary.v2.uploader.destroy(
+      product.images[i].public_id
+    );
   }
 
   await product.remove();
+
   res.status(200).json({
     success: true,
-    message: "product deleted successfully",
+    message: "Product is deleted.",
+  });
+});
+// Get all products (Admin)  =>   /api/v1/admin/products
+export const getAdminProducts = catchAsyncErrors(async (req, res, next) => {
+  const products = await Product.find();
+
+  res.status(200).json({
+    success: true,
+    products,
   });
 });
 
+// Get Product Reviews   =>   /api/v1/reviews
 export const getProductReviews = catchAsyncErrors(async (req, res, next) => {
-  const product = await Product.findById(req.params.id);
-  if (!product) {
-    return next(new ErrorHandler("Product not found", 404));
-  }
+  const product = await Product.findById(req.query.id);
 
-  res.status(200).json({ success: true, reviews: product.reviews });
+  res.status(200).json({
+    success: true,
+    reviews: product.reviews,
+  });
 });
 
 export const createProductReview = catchAsyncErrors(async (req, res, next) => {

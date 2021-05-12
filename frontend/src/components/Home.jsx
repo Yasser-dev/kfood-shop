@@ -13,13 +13,8 @@ const Home = ({ match }) => {
   const alert = useAlert();
   const dispatch = useDispatch();
 
-  const {
-    loading,
-    products,
-    error,
-    productsCount,
-    resultsPerPage,
-  } = useSelector((state) => state.products);
+  const { loading, products, error, productsCount, resultsPerPage } =
+    useSelector((state) => state.products);
 
   const keyword = match.params.keyword;
 
@@ -50,11 +45,11 @@ const Home = ({ match }) => {
                 ))}
             </div>
           </section>
-          {resultsPerPage < productsCount && (
-            <div className="d-flex justify-content-center mt-5">
+          {4 < productsCount && (
+            <div className="mt-5 d-flex justify-content-center">
               <Pagination
                 activePage={currentPage}
-                itemsCountPerPage={resultsPerPage}
+                itemsCountPerPage={4}
                 totalItemsCount={productsCount}
                 onChange={setCurrentPageNo}
                 itemClass="page-item"

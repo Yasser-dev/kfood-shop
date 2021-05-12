@@ -19,7 +19,7 @@ router
   .get(isAuthenticated, authorizeRoles("admin"), getAllOrders);
 router
   .route("/admin/orders/:id")
-  .get(isAuthenticated, authorizeRoles("admin"), updateOrder)
+  .put(isAuthenticated, authorizeRoles("admin"), updateOrder)
   .delete(isAuthenticated, authorizeRoles("admin"), deleteOrder);
 
 export default router;

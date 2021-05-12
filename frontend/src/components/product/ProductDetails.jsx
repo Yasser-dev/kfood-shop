@@ -11,6 +11,7 @@ import {
   getProductDetails,
   newReview,
   clearErrors,
+  dismissProduct,
 } from "../../actions/productActions";
 import { addItemToCart } from "../../actions/cartActions";
 import { NEW_REVIEW_RESET } from "../../constants/productConstants";
@@ -48,6 +49,9 @@ const ProductDetails = ({ match }) => {
       alert.success("Your review was successfully posted");
       dispatch({ type: NEW_REVIEW_RESET });
     }
+    return () => {
+      dispatch(dismissProduct());
+    };
   }, [dispatch, alert, error, reviewError, match.params.id, success]);
 
   const addToCart = () => {
@@ -197,6 +201,9 @@ const ProductDetails = ({ match }) => {
                 >
                   {product.stock > 0 ? "In Stock" : "Out of Stock"}
                 </span>
+                {product.stock > 0 && (
+                  <small className="ml-2">({product.stock} Available)</small>
+                )}
               </p>
 
               <hr />
@@ -205,7 +212,7 @@ const ProductDetails = ({ match }) => {
               <p>{product.description}</p>
               <hr />
               <p id="product_seller mb-3">
-                Sold by: <strong>{product.seller}</strong>
+                Brand: <strong>{product.brand}</strong>
               </p>
 
               {user ? (

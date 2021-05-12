@@ -58,34 +58,39 @@ export const getCurrentUserOrders = catchAsyncErrors(async (req, res, next) => {
 // Get all orders => /api/v1/admin/orders
 export const getAllOrders = catchAsyncErrors(async (req, res, next) => {
   const orders = await Order.find();
-  res.status(200).json({ success: true, ordersCount: orders.length, orders });
+
+  let totalAmount = 0;
+
+  orders.forEach((order) => {
+    totalAmount += order.totalPrice;
+  });
+
+  res.status(200).json({
+    success: true,
+    totalAmount,
+    orders,
+  });
 });
 
 // Update Order => /api/v1/admin/order/:id
 export const updateOrder = catchAsyncErrors(async (req, res, next) => {
   const order = await Order.findById(req.params.id);
 
-  if (!order) {
-    return next(new ErrorHandler("Order not found", 404));
-  }
-  if ((order.status = "Delivered")) {
-    return next(
-      new ErrorHandler(
-        `Order was delivered already at: ${order.deliveredAt}`,
-        400
-      )
-    );
+  if (order.orderStatus === "Delivered") {
+    return next(new ErrorHandler("You have already delivered this order", 400));
   }
 
   order.orderItems.forEach(async (item) => {
     await updateStock(item.product, item.quantity);
   });
 
-  order.orderStatus = req.body.status;
-  order.deliveredAt = Date.now();
+  (order.orderStatus = req.body.status), (order.deliveredAt = Date.now());
+
   await order.save();
 
-  res.status(200).json({ success: true });
+  res.status(200).json({
+    success: true,
+  });
 });
 
 // Delete Order => /api/v1/orders/:id

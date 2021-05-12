@@ -8,6 +8,7 @@ import {
   getProductReviews,
   createProductReview,
   deleteProductReview,
+  getAdminProducts,
 } from "../controllers/product.controller";
 
 import { isAuthenticated, authorizeRoles } from "../middlewares/auth";
@@ -15,6 +16,9 @@ import { isAuthenticated, authorizeRoles } from "../middlewares/auth";
 const router = express.Router();
 
 router.route("/products").get(getProducts);
+router
+  .route("/admin/products")
+  .get(isAuthenticated, authorizeRoles("admin"), getAdminProducts);
 router.route("/products/:id").get(getProductById);
 router
   .route("/admin/products/new")

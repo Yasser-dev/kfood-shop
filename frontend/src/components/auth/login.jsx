@@ -11,13 +11,16 @@ const Login = ({ history }) => {
   const [password, setPassword] = useState("");
   const alert = useAlert();
   const dispatch = useDispatch();
-  const { isAuthenticated, loading, error } = useSelector(
+  const { isAuthenticated, loading, error, user } = useSelector(
     (state) => state.auth
   );
 
-  const redirect = window.location.search
-    ? window.location.search.split("=")[1]
-    : "/";
+  const redirect =
+    user?.role === "admin"
+      ? "/dashboard"
+      : window.location.search
+      ? window.location.search.split("=")[1]
+      : "/";
 
   useEffect(() => {
     if (isAuthenticated) {

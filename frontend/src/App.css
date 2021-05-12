@@ -500,7 +500,7 @@ footer {
 #sidebar {
   min-width: 100%;
   max-width: 100%;
-  background: #232f3e;
+  background: #394451;
   color: #fff;
   transition: all 0.3s;
 }
@@ -510,11 +510,11 @@ footer {
 
 #sidebar .sidebar-header {
   padding: 20px;
-  background: #232f3e;
+  background: #394451;
 }
 #sidebar ul.components {
   padding: 5px 0px;
-  border-bottom: 1px solid #232f3e;
+  border-bottom: 1px solid #c1c8e4;
 }
 
 #sidebar ul li a {
@@ -614,4 +614,8 @@ ul.CTAs a {
 .review_user {
   font-size: 0.8rem;
   color: grey;
+}
+
+.dark-bg {
+  background-color: #232f3e;
 }
