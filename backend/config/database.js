@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 
 export const connectDatabase = () => {
   mongoose
-    .connect(process.env.DB_LOCAL_URI, {
+    .connect(process.env.DB_ATLAS_URI, {
       useNewUrlParser: true,
       useUnifiedTopology: true,
       useCreateIndex: true,
