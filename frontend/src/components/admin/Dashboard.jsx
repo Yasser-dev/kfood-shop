@@ -35,7 +35,7 @@ const Dashboard = () => {
 
   return (
     <Fragment>
-      <div className="row dark-bg">
+      <div className="row  bg-dark text-light">
         <div className="col-12 col-md-2">
           <Sidebar />
         </div>

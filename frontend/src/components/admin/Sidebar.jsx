@@ -53,6 +53,11 @@ const Sidebar = () => {
               <i className="fa fa-star"></i> Reviews
             </Link>
           </li>
+          <li>
+            <Link to="/admin/analytics">
+              <i className="fa fa-chart-bar"></i> Analytics
+            </Link>
+          </li>
         </ul>
       </nav>
     </div>

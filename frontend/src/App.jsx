@@ -37,6 +37,7 @@ import ProcessOrder from "./components/admin/ProcessOrder";
 import UsersList from "./components/admin/UsersList";
 import UpdateUser from "./components/admin/UpdateUser";
 import ProductReviews from "./components/admin/ProductReviews";
+import Analytics from "./components/admin/Analytics";
 
 function App() {
   const [stripeApiKey, setStripeApiKey] = useState("");
@@ -151,6 +152,12 @@ function App() {
           path="/admin/reviews"
           isAdmin={true}
           component={ProductReviews}
+          exact
+        />
+        <ProtectedRoute
+          path="/admin/analytics"
+          isAdmin={true}
+          component={Analytics}
           exact
         />
         {!loading && (!isAuthenticated || user.role !== "admin") && <Footer />}

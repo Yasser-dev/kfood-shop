@@ -15,6 +15,8 @@ import {
 import { UPDATE_ORDER_RESET } from "../../constants/orderConstants";
 
 const ProcessOrder = ({ match }) => {
+  const [status, setStatus] = useState("");
+
   const alert = useAlert();
   const dispatch = useDispatch();
 
@@ -44,7 +46,7 @@ const ProcessOrder = ({ match }) => {
       dispatch({ type: UPDATE_ORDER_RESET });
     }
   }, [dispatch, alert, error, isUpdated, orderId]);
-  const [status, setStatus] = useState(orderStatus);
+
   const updateOrderHandler = (id) => {
     const formData = new FormData();
     formData.set("status", status);
@@ -54,24 +56,24 @@ const ProcessOrder = ({ match }) => {
 
   const shippingDetails =
     shippingInfo &&
-    `${shippingInfo.address}, ${shippingInfo.city}, ${shippingInfo.postalCode}, ${shippingInfo.country}`;
+    `${shippingInfo.address}, ${shippingInfo.city}, ${shippingInfo.postalCode}, ${shippingInfo.governate}`;
   const isPaid =
     paymentInfo && paymentInfo.status === "succeeded" ? true : false;
 
   return (
     <Fragment>
       <MetaData title={`Process Order # ${order && order._id}`} />
-      <div className="row bg-dark text-light">
+      <div className="row  bg-dark text-light">
         <div className="col-12 col-md-2">
           <Sidebar />
         </div>
 
-        <div className="col-12 col-md-10">
+        <div className="col-12 col-md-10 ">
           <Fragment>
             {loading ? (
               <Loader />
             ) : (
-              <div className="row d-flex justify-content-around">
+              <div className="row d-flex justify-content-around ">
                 <div className="col-12 col-lg-7 order-details">
                   <h2 className="my-5">Order # {order._id}</h2>
 
@@ -83,7 +85,7 @@ const ProcessOrder = ({ match }) => {
                     <b>Phone:</b> {shippingInfo && shippingInfo.phoneNo}
                   </p>
                   <p className="mb-4">
-                    <b>Address:</b>
+                    <b> Address: </b>
                     {shippingDetails}
                   </p>
                   <p>
@@ -103,28 +105,38 @@ const ProcessOrder = ({ match }) => {
                   </p>
 
                   <h4 className="my-4">Order Status:</h4>
-                  <b>
-                    {order.orderStatus &&
-                    String(order.orderStatus).includes("Delivered") ? (
-                      <p style={{ color: "mediumseagreen" }}>
-                        {order.orderStatus}
-                      </p>
-                    ) : String(order.orderStatus).includes("Shipped") ? (
-                      <p style={{ color: "gold" }}>{order.orderStatus}</p>
-                    ) : String(order.orderStatus).includes("Cancelled") ? (
-                      <p style={{ color: "firebrick" }}>{order.orderStatus}</p>
-                    ) : (
-                      <p style={{ color: "dodgerblue" }}>{order.orderStatus}</p>
-                    )}
-                  </b>
+                  <p
+                    className={
+                      order.orderStatus &&
+                      String(order.orderStatus).includes("Delivered")
+                        ? "greenColor"
+                        : "redColor"
+                    }
+                  >
+                    <b>
+                      {String(order.orderStatus).includes("Delivered") ? (
+                        <p style={{ color: "mediumseagreen" }}>
+                          {order.orderStatus}
+                        </p>
+                      ) : String(order.orderStatus).includes("Shipped") ? (
+                        <p style={{ color: "gold" }}>{order.orderStatus}</p>
+                      ) : String(order.orderStatus).includes("Cancelled") ? (
+                        <p style={{ color: "red" }}>{order.orderStatus}</p>
+                      ) : (
+                        <p style={{ color: "dodgerblue" }}>
+                          {order.orderStatus}
+                        </p>
+                      )}
+                    </b>
+                  </p>
 
                   <h4 className="my-4">Order Items:</h4>
 
                   <hr />
-                  <div className="my-1 cart-item">
+                  <div className="cart-item my-1">
                     {orderItems &&
                       orderItems.map((item) => (
-                        <div key={item.product} className="my-5 row">
+                        <div key={item.product} className="row my-5">
                           <div className="col-4 col-lg-2">
                             <img
                               src={item.image}
@@ -135,16 +147,16 @@ const ProcessOrder = ({ match }) => {
                           </div>
 
                           <div className="col-5 col-lg-5">
-                            <Link to={`/admin/product/${item.product}`}>
+                            <Link to={`/products/${item.product}`}>
                               {item.name}
                             </Link>
                           </div>
 
-                          <div className="mt-4 col-4 col-lg-2 mt-lg-0">
+                          <div className="col-4 col-lg-2 mt-4 mt-lg-0">
                             <p>EGP {item.price}</p>
                           </div>
 
-                          <div className="mt-4 col-4 col-lg-3 mt-lg-0">
+                          <div className="col-4 col-lg-3 mt-4 mt-lg-0">
                             <p>{item.quantity} Item(s)</p>
                           </div>
                         </div>
@@ -153,17 +165,15 @@ const ProcessOrder = ({ match }) => {
                   <hr />
                 </div>
 
-                <div className="mt-5 col-12 col-lg-3">
+                <div className="col-12 col-lg-3 mt-5">
                   <h4 className="my-4">Status</h4>
-                  {(orderStatus && orderStatus?.includes("Delivered")) ||
-                  orderStatus.includes("Cancelled") ? (
-                    String(order.orderStatus).includes("Delivered") ? (
-                      <p style={{ color: "mediumseagreen" }}>
-                        Order has been delivered
-                      </p>
-                    ) : (
-                      <p style={{ color: "red" }}>Order been cancelled</p>
-                    )
+                  {order.orderStatus &&
+                  String(order.orderStatus).includes("Delivered") ? (
+                    <p style={{ color: "mediumseagreen" }}>
+                      Order has been Delivered
+                    </p>
+                  ) : String(order.orderStatus).includes("Cancelled") ? (
+                    <p style={{ color: "red" }}>Order has been cancelled</p>
                   ) : (
                     <div>
                       <div className="form-group">
@@ -173,15 +183,15 @@ const ProcessOrder = ({ match }) => {
                           value={status}
                           onChange={(e) => setStatus(e.target.value)}
                         >
-                          <option value="Cancelled">Cancelled</option>
                           <option value="Processing">Processing</option>
                           <option value="Shipped">Shipped</option>
+                          <option value="Cancelled">Cancelled</option>
                           <option value="Delivered">Delivered</option>
                         </select>
                       </div>
 
                       <button
-                        className="btn btn-light btn-block"
+                        className="btn btn-primary btn-block"
                         onClick={() => updateOrderHandler(order._id)}
                       >
                         Update Status
