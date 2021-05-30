@@ -77,16 +77,17 @@ const OrderDetails = ({ match }) => {
               </p>
 
               <h4 className="my-4">Order Status:</h4>
-              <p
-                className={
-                  order.orderStatus &&
-                  String(order.orderStatus).includes("Delivered")
-                    ? "greenColor"
-                    : "redColor"
-                }
-              >
-                <b>{orderStatus}</b>
-              </p>
+              <b>
+                {orderStatus && String(orderStatus).includes("Delivered") ? (
+                  <p style={{ color: "mediumseagreen" }}>{orderStatus}</p>
+                ) : String(orderStatus).includes("Shipped") ? (
+                  <p style={{ color: "orange" }}>{orderStatus}</p>
+                ) : String(orderStatus).includes("Cancelled") ? (
+                  <p style={{ color: "firebrick" }}>{orderStatus}</p>
+                ) : (
+                  <p style={{ color: "dodgerblue" }}>{orderStatus}</p>
+                )}
+              </b>
 
               <h4 className="my-4">Order Items:</h4>
 

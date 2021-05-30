@@ -130,7 +130,7 @@ function App() {
           exact
         />
         <ProtectedRoute
-          path="/admin/order/:id"
+          path="/admin/orders/:id"
           isAdmin={true}
           component={ProcessOrder}
           exact

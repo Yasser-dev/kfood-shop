@@ -128,6 +128,7 @@ export const updateOrder = (id, orderData) => async (dispatch) => {
       payload: data.success,
     });
   } catch (error) {
+    console.log(error);
     dispatch({
       type: UPDATE_ORDER_FAIL,
       payload: error.response.data.message,

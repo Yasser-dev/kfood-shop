@@ -230,7 +230,6 @@ const UpdateProduct = ({ match, history }) => {
                       id="customFile"
                       onChange={onChange}
                       multiple
-                      required
                     />
                     <label className="custom-file-label" htmlFor="customFile">
                       Choose Images

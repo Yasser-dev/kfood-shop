@@ -64,9 +64,13 @@ const ListOrders = () => {
         status:
           order.orderStatus &&
           String(order.orderStatus).includes("Delivered") ? (
-            <p style={{ color: "green" }}>{order.orderStatus}</p>
+            <p style={{ color: "mediumseagreen" }}>{order.orderStatus}</p>
+          ) : String(order.orderStatus).includes("Shipped") ? (
+            <p style={{ color: "orange" }}>{order.orderStatus}</p>
+          ) : String(order.orderStatus).includes("Cancelled") ? (
+            <p style={{ color: "firebrick" }}>{order.orderStatus}</p>
           ) : (
-            <p style={{ color: "red" }}>{order.orderStatus}</p>
+            <p style={{ color: "dodgerblue" }}>{order.orderStatus}</p>
           ),
         actions: (
           <Link to={`/order/${order._id}`} className="btn btn-primary">

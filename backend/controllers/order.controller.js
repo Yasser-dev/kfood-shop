@@ -27,7 +27,9 @@ export const createOrder = catchAsyncErrors(async (req, res, next) => {
     paidAt: Date.now(),
     user: req.user._id,
   });
-
+  order.orderItems.forEach(async (item) => {
+    await updateStock(item.product, item.quantity, "remove");
+  });
   res.status(200).json({ success: true, order });
 });
 
@@ -62,7 +64,9 @@ export const getAllOrders = catchAsyncErrors(async (req, res, next) => {
   let totalAmount = 0;
 
   orders.forEach((order) => {
-    totalAmount += order.totalPrice;
+    if (order.orderStatus === "Delivered") {
+      totalAmount += order.totalPrice;
+    }
   });
 
   res.status(200).json({
@@ -79,10 +83,15 @@ export const updateOrder = catchAsyncErrors(async (req, res, next) => {
   if (order.orderStatus === "Delivered") {
     return next(new ErrorHandler("You have already delivered this order", 400));
   }
+  if (order.orderStatus === "Cancelled") {
+    return next(new ErrorHandler("You have already cancelled this order", 400));
+  }
 
-  order.orderItems.forEach(async (item) => {
-    await updateStock(item.product, item.quantity);
-  });
+  if (req.body.status === "Cancelled") {
+    order.orderItems.forEach(async (item) => {
+      await updateStock(item.product, item.quantity, "add");
+    });
+  }
 
   (order.orderStatus = req.body.status), (order.deliveredAt = Date.now());
 
@@ -108,8 +117,13 @@ export const deleteOrder = catchAsyncErrors(async (req, res, next) => {
 
 // Util Functions
 
-async function updateStock(id, quantity) {
+async function updateStock(id, quantity, state) {
   const product = await Product.findById(id);
-  product.stock = product.stock - quantity;
+  if (state === "add") {
+    product.stock = product.stock + quantity;
+  }
+  if (state === "remove") {
+    product.stock = product.stock - quantity;
+  }
   await product.save({ validateBeforeSave: false });
 }

@@ -15,8 +15,6 @@ import {
 import { UPDATE_ORDER_RESET } from "../../constants/orderConstants";
 
 const ProcessOrder = ({ match }) => {
-  const [status, setStatus] = useState("");
-
   const alert = useAlert();
   const dispatch = useDispatch();
 
@@ -46,7 +44,7 @@ const ProcessOrder = ({ match }) => {
       dispatch({ type: UPDATE_ORDER_RESET });
     }
   }, [dispatch, alert, error, isUpdated, orderId]);
-
+  const [status, setStatus] = useState(orderStatus);
   const updateOrderHandler = (id) => {
     const formData = new FormData();
     formData.set("status", status);
@@ -105,16 +103,20 @@ const ProcessOrder = ({ match }) => {
                   </p>
 
                   <h4 className="my-4">Order Status:</h4>
-                  <p
-                    className={
-                      order.orderStatus &&
-                      String(order.orderStatus).includes("Delivered")
-                        ? "greenColor"
-                        : "redColor"
-                    }
-                  >
-                    <b>{orderStatus}</b>
-                  </p>
+                  <b>
+                    {order.orderStatus &&
+                    String(order.orderStatus).includes("Delivered") ? (
+                      <p style={{ color: "mediumseagreen" }}>
+                        {order.orderStatus}
+                      </p>
+                    ) : String(order.orderStatus).includes("Shipped") ? (
+                      <p style={{ color: "gold" }}>{order.orderStatus}</p>
+                    ) : String(order.orderStatus).includes("Cancelled") ? (
+                      <p style={{ color: "firebrick" }}>{order.orderStatus}</p>
+                    ) : (
+                      <p style={{ color: "dodgerblue" }}>{order.orderStatus}</p>
+                    )}
+                  </b>
 
                   <h4 className="my-4">Order Items:</h4>
 
@@ -153,26 +155,39 @@ const ProcessOrder = ({ match }) => {
 
                 <div className="mt-5 col-12 col-lg-3">
                   <h4 className="my-4">Status</h4>
+                  {(orderStatus && orderStatus?.includes("Delivered")) ||
+                  orderStatus.includes("Cancelled") ? (
+                    String(order.orderStatus).includes("Delivered") ? (
+                      <p style={{ color: "mediumseagreen" }}>
+                        Order has been delivered
+                      </p>
+                    ) : (
+                      <p style={{ color: "red" }}>Order been cancelled</p>
+                    )
+                  ) : (
+                    <div>
+                      <div className="form-group">
+                        <select
+                          className="form-control"
+                          name="status"
+                          value={status}
+                          onChange={(e) => setStatus(e.target.value)}
+                        >
+                          <option value="Cancelled">Cancelled</option>
+                          <option value="Processing">Processing</option>
+                          <option value="Shipped">Shipped</option>
+                          <option value="Delivered">Delivered</option>
+                        </select>
+                      </div>
 
-                  <div className="form-group">
-                    <select
-                      className="form-control"
-                      name="status"
-                      value={status}
-                      onChange={(e) => setStatus(e.target.value)}
-                    >
-                      <option value="Processing">Processing</option>
-                      <option value="Shipped">Shipped</option>
-                      <option value="Delivered">Delivered</option>
-                    </select>
-                  </div>
-
-                  <button
-                    className="btn btn-primary btn-block"
-                    onClick={() => updateOrderHandler(order._id)}
-                  >
-                    Update Status
-                  </button>
+                      <button
+                        className="btn btn-light btn-block"
+                        onClick={() => updateOrderHandler(order._id)}
+                      >
+                        Update Status
+                      </button>
+                    </div>
+                  )}
                 </div>
               </div>
             )}

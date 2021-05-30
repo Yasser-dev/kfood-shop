@@ -76,18 +76,22 @@ const OrdersList = ({ history }) => {
       data.rows.push({
         id: order._id,
         numofItems: order.orderItems.length,
-        amount: `$${order.totalPrice}`,
+        amount: `EGP ${order.totalPrice}`,
         status:
           order.orderStatus &&
           String(order.orderStatus).includes("Delivered") ? (
-            <p style={{ color: "green" }}>{order.orderStatus}</p>
+            <p style={{ color: "mediumseagreen" }}>{order.orderStatus}</p>
+          ) : String(order.orderStatus).includes("Shipped") ? (
+            <p style={{ color: "gold" }}>{order.orderStatus}</p>
+          ) : String(order.orderStatus).includes("Cancelled") ? (
+            <p style={{ color: "firebrick" }}>{order.orderStatus}</p>
           ) : (
-            <p style={{ color: "red" }}>{order.orderStatus}</p>
+            <p style={{ color: "dodgerblue" }}>{order.orderStatus}</p>
           ),
         actions: (
           <Fragment>
             <Link
-              to={`/admin/order/${order._id}`}
+              to={`/admin/orders/${order._id}`}
               className="px-2 py-1 btn btn-primary"
             >
               <i className="fa fa-eye"></i>
