@@ -1,5 +1,5 @@
 import React, { Fragment } from "react";
-import { Link, Route } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { useAlert } from "react-alert";
 import HeaderLogo from "../../assets/adminheaderlogo.png";

@@ -55,7 +55,7 @@ const Dashboard = () => {
                     <div className="card-body">
                       <div className="text-center card-font-size">
                         Total Sales
-                        <br />{" "}
+                        <br />
                         <b>EGP {totalAmount && totalAmount.toFixed(2)}</b>
                       </div>
                     </div>

@@ -85,6 +85,7 @@ const UpdateUser = ({ history, match }) => {
                     name="name"
                     value={name}
                     onChange={(e) => setName(e.target.value)}
+                    required
                   />
                 </div>
 
@@ -97,6 +98,7 @@ const UpdateUser = ({ history, match }) => {
                     name="email"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
+                    required
                   />
                 </div>
 

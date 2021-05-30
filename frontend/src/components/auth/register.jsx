@@ -90,6 +90,7 @@ const Register = ({ history }) => {
                     name="name"
                     value={name}
                     onChange={onChange}
+                    required
                   />
                 </div>
 
@@ -103,6 +104,7 @@ const Register = ({ history }) => {
                     name="email"
                     value={email}
                     onChange={onChange}
+                    required
                   />
                 </div>
 
@@ -115,6 +117,7 @@ const Register = ({ history }) => {
                     name="password"
                     value={password}
                     onChange={onChange}
+                    required
                   />
                 </div>
 
@@ -138,6 +141,7 @@ const Register = ({ history }) => {
                         id="customFile"
                         accept="iamges/*"
                         onChange={onChange}
+                        required
                       />
                       <label className="custom-file-label" htmlFor="customFile">
                         Choose Avatar

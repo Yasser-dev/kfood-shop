@@ -151,6 +151,7 @@ const UpdateProduct = ({ match, history }) => {
                     className="form-control"
                     value={name}
                     onChange={(e) => setName(e.target.value)}
+                    required
                   />
                 </div>
 
@@ -162,6 +163,7 @@ const UpdateProduct = ({ match, history }) => {
                     className="form-control"
                     value={price}
                     onChange={(e) => setPrice(e.target.value)}
+                    required
                   />
                 </div>
 
@@ -173,6 +175,7 @@ const UpdateProduct = ({ match, history }) => {
                     rows="8"
                     value={description}
                     onChange={(e) => setDescription(e.target.value)}
+                    required
                   ></textarea>
                 </div>
 
@@ -183,6 +186,7 @@ const UpdateProduct = ({ match, history }) => {
                     id="category_field"
                     value={category}
                     onChange={(e) => setCategory(e.target.value)}
+                    required
                   >
                     {categories.map((category) => (
                       <option key={category} value={category}>
@@ -199,6 +203,7 @@ const UpdateProduct = ({ match, history }) => {
                     className="form-control"
                     value={stock}
                     onChange={(e) => setStock(e.target.value)}
+                    required
                   />
                 </div>
 
@@ -210,6 +215,7 @@ const UpdateProduct = ({ match, history }) => {
                     className="form-control"
                     value={brand}
                     onChange={(e) => setBrand(e.target.value)}
+                    required
                   />
                 </div>
 
@@ -224,6 +230,7 @@ const UpdateProduct = ({ match, history }) => {
                       id="customFile"
                       onChange={onChange}
                       multiple
+                      required
                     />
                     <label className="custom-file-label" htmlFor="customFile">
                       Choose Images

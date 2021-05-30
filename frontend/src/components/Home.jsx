@@ -49,7 +49,7 @@ const Home = ({ match }) => {
             <div className="mt-5 d-flex justify-content-center">
               <Pagination
                 activePage={currentPage}
-                itemsCountPerPage={4}
+                itemsCountPerPage={resultsPerPage}
                 totalItemsCount={productsCount}
                 onChange={setCurrentPageNo}
                 itemClass="page-item"

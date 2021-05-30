@@ -12,7 +12,7 @@ const NewProduct = ({ history }) => {
   const [name, setName] = useState("");
   const [price, setPrice] = useState(0);
   const [description, setDescription] = useState("");
-  const [category, setCategory] = useState("");
+  const [category, setCategory] = useState("Canned Foods");
   const [stock, setStock] = useState(0);
   const [brand, setBrand] = useState("");
   const [images, setImages] = useState([]);
@@ -111,6 +111,7 @@ const NewProduct = ({ history }) => {
                     className="form-control"
                     value={name}
                     onChange={(e) => setName(e.target.value)}
+                    required
                   />
                 </div>
 
@@ -122,6 +123,7 @@ const NewProduct = ({ history }) => {
                     className="form-control"
                     value={price}
                     onChange={(e) => setPrice(e.target.value)}
+                    required
                   />
                 </div>
 
@@ -133,6 +135,7 @@ const NewProduct = ({ history }) => {
                     rows="8"
                     value={description}
                     onChange={(e) => setDescription(e.target.value)}
+                    required
                   ></textarea>
                 </div>
 
@@ -143,6 +146,7 @@ const NewProduct = ({ history }) => {
                     id="category_field"
                     value={category}
                     onChange={(e) => setCategory(e.target.value)}
+                    required
                   >
                     {categories.map((category) => (
                       <option key={category} value={category}>
@@ -159,6 +163,7 @@ const NewProduct = ({ history }) => {
                     className="form-control"
                     value={stock}
                     onChange={(e) => setStock(e.target.value)}
+                    required
                   />
                 </div>
 
@@ -170,6 +175,7 @@ const NewProduct = ({ history }) => {
                     className="form-control"
                     value={brand}
                     onChange={(e) => setBrand(e.target.value)}
+                    required
                   />
                 </div>
 
@@ -184,6 +190,7 @@ const NewProduct = ({ history }) => {
                       id="customFile"
                       onChange={onChange}
                       multiple
+                      required
                     />
                     <label className="custom-file-label" htmlFor="customFile">
                       Choose Images

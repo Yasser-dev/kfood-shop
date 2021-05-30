@@ -2,7 +2,6 @@ import React, { Fragment, useState, useEffect } from "react";
 import { MDBDataTable } from "mdbreact";
 
 import MetaData from "../MetaData";
-import Loader from "../layouts/Loader";
 import Sidebar from "./Sidebar";
 
 import { useAlert } from "react-alert";
