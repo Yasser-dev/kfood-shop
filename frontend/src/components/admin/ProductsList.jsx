@@ -110,12 +110,12 @@ const ProductsList = ({ history }) => {
   return (
     <Fragment>
       <MetaData title={"All Products"} />
-      <div className="row">
+      <div className="row bg-dark text-light">
         <div className="col-12 col-md-2">
           <Sidebar />
         </div>
 
-        <div className="col-12 col-md-10 dark-bg text-light">
+        <div className="col-12 col-md-10 ">
           <Fragment>
             <h1 className="my-5">All Products</h1>
 

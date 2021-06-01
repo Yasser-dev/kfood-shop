@@ -88,7 +88,7 @@ const NewProduct = ({ history }) => {
   return (
     <Fragment>
       <MetaData title={"New Product"} />
-      <div className="row dark-bg text-light">
+      <div className="row bg-dark text-light">
         <div className="col-12 col-md-2">
           <Sidebar />
         </div>
